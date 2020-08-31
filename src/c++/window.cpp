@@ -274,6 +274,11 @@ Napi::Value Window::GetProcessInfo(const Napi::CallbackInfo& info) {
   // Para solicitar datos de este proceso necesitamos crear un puntero a el
   HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, lpdwProcessId);
 
+  char wndTitle[256];
+  GetWindowText(this->_identifier, wndTitle, sizeof(wndTitle));
+
+  result.Set("window_text", Napi::String::New(info.Env(), wndTitle));
+
   // Comprobamos que tenemos acceso para consultar el proceso, y que el puntero esta bien
   if (NULL != hProcess) {
     HMODULE hMod;
