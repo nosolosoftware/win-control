@@ -30,6 +30,7 @@ public:
   Napi::Value GetProcessInfo(const Napi::CallbackInfo& info);
   Napi::Value GetAncestor(const Napi::CallbackInfo& info);
   Napi::Value GetParent(const Napi::CallbackInfo& info);
+  Napi::Value Close(const Napi::CallbackInfo& info);
 
 private:
   HWND _identifier;

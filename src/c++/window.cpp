@@ -105,7 +105,8 @@ Napi::Object Window::Init(Napi::Env env, Napi::Object exports) {
       InstanceMethod("getPid", &Window::GetPid),
       InstanceMethod("getProcessInfo", &Window::GetProcessInfo),
       InstanceMethod("getAncestor", &Window::GetAncestor),
-      InstanceMethod("getParent", &Window::GetParent)
+      InstanceMethod("getParent", &Window::GetParent),
+      InstanceMethod("close", &Window::Close)
     });
 
   constructor = Napi::Persistent(func);
@@ -310,4 +311,10 @@ Napi::Value Window::GetAncestor(const Napi::CallbackInfo& info) {
   } else {
     return Napi::Number::New(info.Env(), HandleToLong(ancestorHwnd));
   }
+}
+
+Napi::Value Window::Close(const Napi::CallbackInfo& info) {
+  bool returned = CloseWindow(this->_identifier);
+
+  return Napi::Boolean::New(info.Env(), returned);
 }
