@@ -310,7 +310,7 @@ Napi::Value Window::GetParent(const Napi::CallbackInfo& info) {
   if (parentHwnd == NULL) {
     return info.Env().Undefined();
   } else {
-    return Napi::Number::New(info.Env(), HandleToLong(parentHwnd));
+    return constructor.New({ Napi::Number::New(info.Env(), HandleToLong(parentHwnd)) });
   }
 }
 
@@ -325,7 +325,7 @@ Napi::Value Window::GetAncestor(const Napi::CallbackInfo& info) {
   if (ancestorHwnd == NULL) {
     return info.Env().Undefined();
   } else {
-    return Napi::Number::New(info.Env(), HandleToLong(ancestorHwnd));
+    return constructor.New({ Napi::Number::New(info.Env(), HandleToLong(ancestorHwnd)) });
   }
 }
 
