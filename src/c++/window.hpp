@@ -27,6 +27,7 @@ public:
   Napi::Value GetTitle(const Napi::CallbackInfo& info);
   Napi::Value GetClassName(const Napi::CallbackInfo& info);
   Napi::Value GetPid(const Napi::CallbackInfo& info);
+  Napi::Value GetProcessInfo(const Napi::CallbackInfo& info);
   Napi::Value GetAncestor(const Napi::CallbackInfo& info);
   Napi::Value GetParent(const Napi::CallbackInfo& info);
 

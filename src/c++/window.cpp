@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <psapi.h>
 #include <string>
 #include <iostream>
 #include <napi.h>
@@ -102,6 +103,7 @@ Napi::Object Window::Init(Napi::Env env, Napi::Object exports) {
       InstanceMethod("getTitle", &Window::GetTitle),
       InstanceMethod("getClassName", &Window::GetClassName),
       InstanceMethod("getPid", &Window::GetPid),
+      InstanceMethod("getProcessInfo", &Window::GetProcessInfo),
       InstanceMethod("getAncestor", &Window::GetAncestor),
       InstanceMethod("getParent", &Window::GetParent)
     });
@@ -233,6 +235,42 @@ Napi::Value Window::GetPid(const Napi::CallbackInfo& info) {
   GetWindowThreadProcessId(this->_identifier, &lpdwProcessId);
 
   return Napi::Number::New(info.Env(), lpdwProcessId);
+}
+
+Napi::Value Window::GetProcessInfo(const Napi::CallbackInfo& info) {
+  DWORD lpdwProcessId;
+  TCHAR processPath[MAX_PATH];
+
+  GetWindowThreadProcessId(this->_identifier, &lpdwProcessId);
+
+  Napi::Object result = Napi::Object::New(info.Env());
+
+  // Para solicitar datos de este proceso necesitamos crear un puntero a el
+  HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, lpdwProcessId);
+
+  // Comprobamos que tenemos acceso para consultar el proceso, y que el puntero esta bien
+  if (NULL != hProcess) {
+    HMODULE hMod;
+    DWORD cbNeeded;
+
+    // Set PID of the process
+    result.Set("pid", Napi::Number::New(info.Env(), lpdwProcessId));
+
+    // Check if process is still accesible
+    if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded)) {
+      GetModuleFileNameEx(hProcess, NULL, processPath, MAX_PATH);
+      result.Set("path", Napi::String::New(info.Env(), processPath));
+    } else {
+      // If process is running as x32 but host is x64 GetModuleFileNameEx doesn't work
+      DWORD dW = MAX_PATH;
+      QueryFullProcessImageName(hProcess, NULL, processPath, &dW);
+      result.Set("path", Napi::String::New(info.Env(), processPath));
+    }
+  }
+  CloseHandle(hProcess);
+
+  return result;
+
 }
 
 Napi::Value Window::GetParent(const Napi::CallbackInfo& info) {
