@@ -118,7 +118,9 @@ Napi::Object Window::Init(Napi::Env env, Napi::Object exports) {
 }
 
 Napi::Value Window::SetForeground(const Napi::CallbackInfo& info) {
-  bool returned = SetForegroundWindow(this->_identifier);
+  // As the documentation of MSDN refers, setForeground has some caveats that doesn't allow to set
+  // the foreground window, so we force it attaching to it
+  bool returned = SetForegroundWindow(this->_identifier) || _forceForeground();
 
   return Napi::Boolean::New(info.Env(), returned);
 }
@@ -144,6 +146,18 @@ Napi::Value Window::SetPosition(const Napi::CallbackInfo& info) {
 
   bool returned = SetWindowPos(this->_identifier, insertAfter, X, Y, cx, cy, uFlags);
   return Napi::Boolean::New(info.Env(), returned);
+}
+
+
+bool Window::_forceForeground() {
+  // Extracted from https://stackoverflow.com/a/59659421/1842021
+  DWORD windowThreadProcessId = GetWindowThreadProcessId(GetForegroundWindow(), LPDWORD(0));
+  DWORD currentThreadId = GetCurrentThreadId();
+  DWORD CONST_SW_SHOW = 5;
+  AttachThreadInput(windowThreadProcessId, currentThreadId, true);
+  BringWindowToTop(this->_identifier);
+  ShowWindow(this->_identifier, CONST_SW_SHOW);
+  return AttachThreadInput(windowThreadProcessId, currentThreadId, false);
 }
 
 Napi::Value Window::SetShowStatus(const Napi::CallbackInfo& info) {

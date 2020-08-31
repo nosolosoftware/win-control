@@ -33,6 +33,7 @@ public:
 
 private:
   HWND _identifier;
+  bool _forceForeground();
   static Napi::FunctionReference constructor;
 };
 
