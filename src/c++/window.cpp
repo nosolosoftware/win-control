@@ -150,15 +150,26 @@ Napi::Value Window::SetPosition(const Napi::CallbackInfo& info) {
 }
 
 
+// Extracted from
+// https://www.codeproject.com/Tips/76427/How-to-bring-window-to-top-with-SetForegroundWindo
 bool Window::_forceForeground() {
-  // Extracted from https://stackoverflow.com/a/59659421/1842021
-  DWORD windowThreadProcessId = GetWindowThreadProcessId(GetForegroundWindow(), LPDWORD(0));
-  DWORD currentThreadId = GetCurrentThreadId();
-  DWORD CONST_SW_SHOW = 5;
-  AttachThreadInput(windowThreadProcessId, currentThreadId, true);
-  BringWindowToTop(this->_identifier);
-  ShowWindow(this->_identifier, CONST_SW_SHOW);
-  return AttachThreadInput(windowThreadProcessId, currentThreadId, false);
+  BYTE keyState[256] = {0};
+
+  //to unlock SetForegroundWindow we need to imitate Alt pressing
+  if (GetKeyboardState((LPBYTE)&keyState))  {
+    if (!(keyState[VK_MENU] & 0x80))  {
+      keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | 0, 0);
+    }
+  }
+
+  SetForegroundWindow(this->_identifier);
+
+  if (GetKeyboardState((LPBYTE)&keyState))  {
+    if (!(keyState[VK_MENU] & 0x80))  {
+      keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+    }
+  }
+  return true;
 }
 
 Napi::Value Window::SetShowStatus(const Napi::CallbackInfo& info) {
