@@ -39,5 +39,9 @@
     "module_path": "./lib/binding/",
     "host": "https://github.com/nosolosoftware/win-control/releases/download/",
     "remote_path": "{version}"
-  }
+  },
+  "files": [
+    "binding.gyp",
+    "src"
+  ]
 }
