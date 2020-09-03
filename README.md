@@ -69,7 +69,7 @@ Retrieves an instance of [Window](#class-window) with the specified ancestor. It
 Returns an object with information of the process who owns the window.
 
 The object has the following properties.
-* `window_text` `{string}` Window's title bar.
+* `windowText` `{string}` Window's title bar.
 * `pid` `{number}` PID of the process who owns the window.
 * `path` `{string}` Process's path who owns the window.
 
