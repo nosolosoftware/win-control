@@ -243,10 +243,11 @@ Napi::Value Window::Exists(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Window::GetTitle(const Napi::CallbackInfo& info) {
-  char wndTitle[256];
-  GetWindowText(this->_identifier, wndTitle, sizeof(wndTitle));
+  int lengthWindowText = GetWindowTextLength(this->_identifier);
+  std::wstring title(lengthWindowText, L'\0');
+  GetWindowTextW(this->_identifier, &title[0], lengthWindowText);
 
-  return Napi::String::New(info.Env(), wndTitle);
+  return Napi::String::New(info.Env(), std::u16string(title.begin(), title.end()));
 }
 
 Napi::Value Window::GetClassName(const Napi::CallbackInfo& info) {
@@ -274,10 +275,12 @@ Napi::Value Window::GetProcessInfo(const Napi::CallbackInfo& info) {
   // Para solicitar datos de este proceso necesitamos crear un puntero a el
   HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, lpdwProcessId);
 
-  char wndTitle[256];
-  GetWindowText(this->_identifier, wndTitle, sizeof(wndTitle));
+  int lengthWindowText = GetWindowTextLength(this->_identifier);
+  std::wstring title(lengthWindowText, L'\0');
+  GetWindowTextW(this->_identifier, &title[0], lengthWindowText);
 
-  result.Set("windowText", Napi::String::New(info.Env(), wndTitle));
+  result.Set("windowText", Napi::String::New(info.Env(),
+        std::u16string(title.begin(), title.end())));
 
   // Comprobamos que tenemos acceso para consultar el proceso, y que el puntero esta bien
   if (NULL != hProcess) {
