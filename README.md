@@ -245,6 +245,14 @@ be a safe, welcoming space for collaboration, and contributors are expected to a
 
 **win-control** uses [Semantic Versioning 2.0.0](http://semver.org)
 
+## Generating a new version
+
+In order to publish a new version you need to define `NODE_PRE_GYP_GITHUB_TOKEN` as environmental variable.
+
+* Bump version at package.json
+* yarn node-pre-gyp clean configure build package
+* yarn node-pre-gyp-github publish --release
+* npm publish
 
 ## License
 
