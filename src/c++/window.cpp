@@ -245,7 +245,7 @@ Napi::Value Window::Exists(const Napi::CallbackInfo& info) {
 Napi::Value Window::GetTitle(const Napi::CallbackInfo& info) {
   int lengthWindowText = GetWindowTextLength(this->_identifier);
   std::wstring title(lengthWindowText, L'\0');
-  GetWindowTextW(this->_identifier, &title[0], lengthWindowText);
+  GetWindowTextW(this->_identifier, &title[0], lengthWindowText + 1);
 
   return Napi::String::New(info.Env(), std::u16string(title.begin(), title.end()));
 }
@@ -277,7 +277,7 @@ Napi::Value Window::GetProcessInfo(const Napi::CallbackInfo& info) {
 
   int lengthWindowText = GetWindowTextLength(this->_identifier);
   std::wstring title(lengthWindowText, L'\0');
-  GetWindowTextW(this->_identifier, &title[0], lengthWindowText);
+  GetWindowTextW(this->_identifier, &title[0], lengthWindowText + 1);
 
   result.Set("windowText", Napi::String::New(info.Env(),
         std::u16string(title.begin(), title.end())));
