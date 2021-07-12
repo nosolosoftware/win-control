@@ -1,6 +1,6 @@
 {
   "name": "win-control",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Windows manipulation made easy for node.js",
   "author": "Francisco Padillo <fpadillo@nosolosoftware.es>",
   "license": "MIT",
