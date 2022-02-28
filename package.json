@@ -1,23 +1,21 @@
 {
   "name": "win-control",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Windows manipulation made easy for node.js",
-  "author": "Francisco Padillo <fpadillo@nosolosoftware.es>",
+  "author": "tombyrne",
   "license": "MIT",
   "main": "src/js/index.js",
+  "types": "src/js/index.d.ts",
   "scripts": {
-    "install": "node-pre-gyp install --fallback-to-build",
-    "pack": "node-pre-gyp package"
+    "install": "node install.js",
+    "pack": "node-pre-gyp package --target_platform=win32 --runtime=electron --target=11.3.0"
   },
   "dependencies": {
-    "node-addon-api": "^3.0.0",
-    "node-pre-gyp": "^0.12.0"
-  },
-  "devDependencies": {
-    "node-pre-gyp-github": "^1.4.3"
+    "@mapbox/node-pre-gyp": "^1.0.8",
+    "node-addon-api": "^3.0.0"
   },
   "peerDependencies": {
-    "node-gyp": "7.x"
+    "node-gyp": "8.x"
   },
   "peerDependenciesMeta": {
     "node-gyp": {
@@ -25,19 +23,16 @@
     }
   },
   "optionalDependencies": {
-    "node-gyp": "7.x"
+    "node-gyp": "8.x"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nosolosoftware/win-control.git"
+    "url": "https://github.com/ImaginationSydney/win-control.git"
   },
-  "os": [
-    "win32"
-  ],
   "binary": {
     "module_name": "wincontrol",
     "module_path": "./lib/binding/",
-    "host": "https://github.com/nosolosoftware/win-control/releases/download/",
+    "host": "https://github.com/ImaginationSydney/win-control/releases/download/",
     "remote_path": "{version}"
   },
   "files": [

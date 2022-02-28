@@ -1,8 +1,8 @@
-const binary = require('node-pre-gyp')
+const binary = require('@mapbox/node-pre-gyp')
 const path = require('path')
 
 const bindingPath = binary.find(path.resolve(path.join(__dirname, '../../package.json')))
-const {Window} = require(bindingPath) // eslint-disable-line
+const { Window } = require(bindingPath) // eslint-disable-line
 
 module.exports = {
   Window,
