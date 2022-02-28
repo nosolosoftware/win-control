@@ -27,15 +27,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tombyrne/win-control.git"
+    "url": "https://github.com/ImaginationSydney/win-control.git"
   },
-  "os": [
-    "win32"
-  ],
   "binary": {
     "module_name": "wincontrol",
     "module_path": "./lib/binding/",
-    "host": "https://github.com/tombyrne/win-control/releases/download/",
+    "host": "https://github.com/ImaginationSydney/win-control/releases/download/",
     "remote_path": "{version}"
   },
   "files": [
