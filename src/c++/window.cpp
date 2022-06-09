@@ -99,7 +99,7 @@ Napi::Object Window::Init(Napi::Env env, Napi::Object exports) {
       InstanceMethod("getHwnd", &Window::GetHwnd),
       InstanceMethod("getDimensions", &Window::GetDimensions),
       InstanceMethod("isVisible", &Window::IsVisible),
-      InstanceMethod("isIconic", &Window::IsIconic),
+      InstanceMethod("isMinimized", &Window::IsMinimized),
       InstanceMethod("exists", &Window::Exists),
       InstanceMethod("getTitle", &Window::GetTitle),
       InstanceMethod("getClassName", &Window::GetClassName),
@@ -238,7 +238,7 @@ Napi::Value Window::IsVisible(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(info.Env(), returned);
 }
 
-Napi::Value Window::IsIconic(const Napi::CallbackInfo& info) {
+Napi::Value Window::IsMinimized(const Napi::CallbackInfo& info) {
   bool returned = IsIconic(this->_identifier);
   return Napi::Boolean::New(info.Env(), returned);
 }
