@@ -23,6 +23,7 @@ public:
   Napi::Value GetHwnd(const Napi::CallbackInfo &info);
   Napi::Value GetDimensions(const Napi::CallbackInfo& info);
   Napi::Value IsVisible(const Napi::CallbackInfo& info);
+  Napi::Value IsMinimized(const Napi::CallbackInfo& info);
   Napi::Value Exists(const Napi::CallbackInfo& info);
   Napi::Value GetTitle(const Napi::CallbackInfo& info);
   Napi::Value GetClassName(const Napi::CallbackInfo& info);

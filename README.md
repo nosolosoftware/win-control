@@ -93,6 +93,10 @@ Returns a `boolean` indicating if the window still exists
 
 Returns a `boolean` indicating if the window is visible
 
+#### #isMinimized()
+
+Returns a `boolean` indicating if the window is minimized (iconic).
+
 #### #getDimensions()
 
 Retrieves the dimensions of the bounding rectangle of the specified window. The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
