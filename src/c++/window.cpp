@@ -239,7 +239,7 @@ Napi::Value Window::IsVisible(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value Window::IsIconic(const Napi::CallbackInfo& info) {
-  bool returned = IsWindowIconic(this->_identifier);
+  bool returned = IsIconic(this->_identifier);
   return Napi::Boolean::New(info.Env(), returned);
 }
 
